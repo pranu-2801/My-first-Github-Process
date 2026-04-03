@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pranathi Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body, h1,h2,h3,h4,h5,h6 {
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Simple colorful theme */
+body {
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  color: #333;
+}
+
+.bgimg {
+  background-image: url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e');
+  background-size: cover;
+  background-position: center;
+  min-height: 100%;
+}
+
+h2 {
+  color: #6a0dad;
+}
+
+.w3-button {
+  border-radius: 20px;
+}
+
+.primary-btn {
+  background: #ff7eb3;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #ff4f9a;
+}
+
+.section-box {
+  background: white;
+  padding: 24px;
+  border-radius: 15px;
+}
+
+.progress-bg {
+  background: #ddd;
+  border-radius: 20px;
+}
+
+.progress-fill {
+  background: #6a0dad;
+  border-radius: 20px;
+  color: white;
+}
+
+input {
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="w3-sidebar w3-hide-medium w3-hide-small" style="width:40%">
+  <div class="bgimg"></div>
+</nav>
+
+<nav class="w3-sidebar w3-animate-right w3-xxlarge"
+style="display:none;padding-top:150px;right:0;z-index:2;background:#ff7eb3"
+id="mySidebar">
+
+  <a href="javascript:void(0)" onclick="closeNav()"
+  class="w3-button w3-xxxlarge w3-display-topright">
+    <i class="fa fa-remove"></i>
+  </a>
+
+  <div class="w3-bar-block w3-center">
+    <a href="#" class="w3-bar-item w3-button">Home</a>
+    <a href="#portfolio" class="w3-bar-item w3-button">Portfolio</a>
+    <a href="#about" class="w3-bar-item w3-button">About</a>
+    <a href="#contact" class="w3-bar-item w3-button">Contact</a>
+  </div>
+</nav>
+
+<div class="w3-main w3-padding-large" style="margin-left:40%">
+
+<span class="w3-button w3-top w3-xxlarge"
+onclick="openNav()"><i class="fa fa-bars"></i></span>
+
+<header class="w3-container w3-center" style="padding:128px 16px">
+  <h1 class="w3-jumbo"><b>Pranathi</b></h1>
+  <p>Creative Student | Designer | Learner</p>
+
+  <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e"
+  class="w3-image w3-round" style="width:60%;margin:auto;display:block">
+
+  <button class="w3-button primary-btn w3-padding-large w3-margin-top">
+    <i class="fa fa-download"></i> Download Resume
+  </button>
+</header>
+
+<div class="w3-padding-32" id="portfolio">
+  <h2>My Portfolio</h2>
+  <hr>
+
+  <div class="w3-row-padding">
+    <div class="w3-half">
+      <img src="https://picsum.photos/500/300" style="width:100%;border-radius:10px">
+      <img src="https://picsum.photos/500/301" style="width:100%;border-radius:10px">
+    </div>
+    <div class="w3-half">
+      <img src="https://picsum.photos/500/302" style="width:100%;border-radius:10px">
+      <img src="https://picsum.photos/500/303" style="width:100%;border-radius:10px">
+    </div>
+  </div>
+</div>
+
+<div class="section-box" id="about">
+  <h2>About Me</h2>
+  <p>
+    Hello! I am Pranathi, a passionate and creative student who loves designing websites and exploring new technologies. I enjoy learning how things work and constantly improving my skills. My goal is to become a skilled developer and create beautiful, user-friendly digital experiences.
+  </p>
+  <p>
+    I am also interested in photography and editing, which helps me bring creativity into my web designs. I believe in continuous learning and always try to improve myself through practice and new challenges.
+  </p>
+
+  <h3>My Skills</h3>
+
+  <p>HTML</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:90%">90%</div>
+  </div>
+
+  <p>CSS</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:85%">85%</div>
+  </div>
+
+  <p>JavaScript</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:70%">70%</div>
+  </div>
+
+  <p>Photography</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:80%">80%</div>
+  </div>
+
+  <p>Graphic Design</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:75%">75%</div>
+  </div>
+
+  <p>Communication</p>
+  <div class="progress-bg">
+    <div class="progress-fill" style="width:85%">85%</div>
+  </div>
+</div>
+
+<div class="w3-padding-32" id="contact">
+  <h2>Contact Me</h2>
+  <hr>
+
+  <form>
+    <p><input class="w3-input w3-padding-16" type="text" placeholder="Name"></p>
+    <p><input class="w3-input w3-padding-16" type="text" placeholder="Email"></p>
+    <p><input class="w3-input w3-padding-16" type="text" placeholder="Message"></p>
+
+    <button class="w3-button primary-btn w3-padding-large">
+      Send Message
+    </button>
+  </form>
+</div>
+
+<footer class="w3-container w3-padding-32 w3-center">
+  <i class="fa fa-facebook-official"></i>
+  <i class="fa fa-instagram"></i>
+  <i class="fa fa-twitter"></i>
+  <p>© 2026 Pranathi Portfolio</p>
+</footer>
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
+</body>
+</html>
