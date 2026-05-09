@@ -1,0 +1,348 @@
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+function generateRandomRGB() {
+
+        const red = Math.floor(Math.random() * 256);
+            const green = Math.floor(Math.random() * 256);
+                const blue = Math.floor(Math.random() * 256);
+
+                    return {
+                                red,
+                                        green,
+                                                blue,
+                                                        rgb: `rgb(${red}, ${green}, ${blue})`
+                    };
+}
+
+function rgbToHex(r, g, b) {
+
+        return (
+                    "#" +
+                            [r, g, b]
+                                        .map(value =>
+                                                        value.toString(16).padStart(2, "0")
+                                                                    )
+                                                                                .join("")
+        );
+}
+
+app.get("/api/random-color", (req, res) => {
+
+        const colorData = generateRandomRGB();
+
+            const hexColor = rgbToHex(
+                        colorData.red,
+                                colorData.green,
+                                        colorData.blue
+            );
+
+                res.json({
+                            success: true,
+                                    rgbColor: colorData.rgb,
+                                            hexColor: hexColor,
+                                                    red: colorData.red,
+                                                            green: colorData.green,
+                                                                    blue: colorData.blue
+                });
+});
+
+app.get("/", (req, res) => {
+        res.send("Random Color Generator Backend Running");
+});
+
+const PORT = 5000;
+
+app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+});
+
+
+
+import React, { useState, useEffect } from "react";
+import "./App.css";
+
+function App() {
+
+        const [backgroundColor, setBackgroundColor] =
+                useState("rgb(255,255,255)");
+
+                    const [hexCode, setHexCode] =
+                            useState("#ffffff");
+
+                                const [rgbCode, setRgbCode] =
+                                        useState("rgb(255,255,255)");
+
+                                            const [colorHistory, setColorHistory] =
+                                                    useState([]);
+
+                                                        const [loading, setLoading] =
+                                                                useState(false);
+
+                                                                    const generateRandomColor = async () => {
+
+                                                                                try {
+
+                                                                                                setLoading(true);
+
+                                                                                                            const response = await fetch(
+                                                                                                                                "http://localhost:5000/api/random-color"
+                                                                                                            );
+
+                                                                                                                        const data = await response.json();
+
+                                                                                                                                    if (data.success) {
+
+                                                                                                                                                        setBackgroundColor(data.rgbColor);
+                                                                                                                                                                        setRgbCode(data.rgbColor);
+                                                                                                                                                                                        setHexCode(data.hexColor);
+
+                                                                                                                                                                                                        setColorHistory(previousColors => [
+                                                                                                                                                                                                                                data.hexColor,
+                                                                                                                                                                                                                                                    ...previousColors.slice(0, 4)
+                                                                                                                                                                                                        ]);
+                                                                                                                                    }
+
+                                                                                                                                                setLoading(false);
+
+                                                                                } catch (error) {
+
+                                                                                                console.log("Error fetching color:", error);
+
+                                                                                                            setLoading(false);
+                                                                                }
+                                                                    };
+
+                                                                        useEffect(() => {
+                                                                                    generateRandomColor();
+                                                                        }, []);
+
+                                                                            return (
+
+                                                                                        <div
+                                                                                                    className="container"
+                                                                                                                style={{
+                                                                                                                                    backgroundColor: backgroundColor
+                                                                                                                }}
+                                                                                                                        >
+
+                                                                                                                                    <div className="card">
+
+                                                                                                                                                    <h1>🎨 Random Color Generator</h1>
+
+                                                                                                                                                                    <p className="description">
+                                                                                                                                                                                        Generate beautiful random colors
+                                                                                                                                                                                                        </p>
+
+                                                                                                                                                                                                                        <div className="color-box">
+
+                                                                                                                                                                                                                                            <h2>Current Color</h2>
+
+                                                                                                                                                                                                                                                                <p>
+                                                                                                                                                                                                                                                                                        <strong>RGB:</strong> {rgbCode}
+                                                                                                                                                                                                                                                                                                            </p>
+
+                                                                                                                                                                                                                                                                                                                                <p>
+                                                                                                                                                                                                                                                                                                                                                        <strong>HEX:</strong> {hexCode}
+                                                                                                                                                                                                                                                                                                                                                                            </p>
+
+                                                                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                            <button
+                                                                                                                                                                                                                                                                                                                                                                                                                                className="generate-btn"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    onClick={generateRandomColor}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    >
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    loading
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ? "Generating..."
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            : "Generate New Color"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div className="history-section">
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <h3>Recent Colors</h3>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div className="history-container">
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        colorHistory.map((color, index) => (
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                key={index}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    className="history-color"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style={{
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    backgroundColor: color
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        >
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span>{color}</span>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                            );
+}
+
+export default App;
+
+
+
+body {
+
+        margin: 0;
+            padding: 0;
+
+                font-family: Arial, sans-serif;
+}
+
+.container {
+
+        height: 100vh;
+
+            display: flex;
+                justify-content: center;
+                    align-items: center;
+
+                        transition: background-color 0.5s ease;
+}
+
+.card {
+
+        width: 450px;
+
+            background-color: white;
+
+                padding: 30px;
+
+                    border-radius: 15px;
+
+                        text-align: center;
+
+                            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+}
+
+.description {
+
+        color: gray;
+            margin-bottom: 20px;
+}
+
+.color-box {
+
+        padding: 20px;
+
+            border: 2px solid #ddd;
+
+                border-radius: 10px;
+
+                    margin-bottom: 20px;
+}
+
+.generate-btn {
+
+        background-color: #222;
+
+            color: white;
+
+                border: none;
+
+                    padding: 12px 20px;
+
+                        font-size: 16px;
+
+                            border-radius: 8px;
+
+                                cursor: pointer;
+
+                                    transition: 0.3s;
+}
+
+.generate-btn:hover {
+
+        background-color: #444;
+}
+
+.history-section {
+
+        margin-top: 30px;
+}
+
+.history-container {
+
+        display: flex;
+
+            gap: 10px;
+
+                justify-content: center;
+
+                    flex-wrap: wrap;
+}
+
+.history-color {
+
+        width: 80px;
+            height: 80px;
+
+                border-radius: 10px;
+
+                    display: flex;
+                        justify-content: center;
+                            align-items: center;
+
+                                color: white;
+
+                                    font-size: 12px;
+
+                                        font-weight: bold;
+
+                                            box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                }}
+                                                                            )
+                                                                        })
+                                                                                }
+                                                                                                                                                                                                        ])
+                                                                                                                                    }
+                                                                                                            )
+                                                                                }
+                                                                    }
+}
+})
+})
+                })
+            )
+})
+        )
+}
+                    }
+}
